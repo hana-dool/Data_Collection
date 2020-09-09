@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 url = 'https://comic.naver.com/webtoon/weekday.nhn'
 
 res = requests.get(url)
-res.raise_for_status
+res.raise_for_status()
 
 soup = BeautifulSoup(res.text,'lxml')
 # 우리가 가져온 html 문서를 lxml의 해석기를 이용해 beautiful soup 객체로 형성

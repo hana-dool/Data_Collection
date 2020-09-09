@@ -29,4 +29,3 @@ for page in range(1,5):
         data = [column.get_text().strip() for column in columns]
         # print(data)
         writer.writerow(data)
-

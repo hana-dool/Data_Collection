@@ -1,10 +1,20 @@
 
+# 크롬 창을 굳이 띄우지 않으면서 작업이 가능하다.
+# 
+
 from selenium import webdriver
-browser = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+options.headless = True # 백그라운드에서 크롬이 들어간다.
+options.add_argument('window-size=1920x1080') 
+# 윈도우 사이즈를 명시해준다.
+# 내 컴퓨터 해상도에 맞추어주어야 사진이 잘 나온다고 한다.
+browser = webdriver.Chrome(options=options) 
+# 위의 옵션을 그대로 넣어준다. 그러면 background 에서 돌아간다.
 browser.maximize_window()
 
 url = 'https://play.google.com/store/movies/top'
 browser.get(url)
+
 
 # 이제 스크롤을 밑으로 내려야 한다.
 # 이 동적 행동을 하기 위해서는 java script code 를 사용해야한다.
@@ -34,7 +44,7 @@ while True:
         break
     prev_height = curr_height
 print('스크롤 완료')
-
+browser.get_screenshot_as_file('중간점검.png')
 #------- 크롤링을 위한 코드 --------#
 
 import requests

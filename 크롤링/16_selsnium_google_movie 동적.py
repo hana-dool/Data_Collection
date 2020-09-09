@@ -1,4 +1,5 @@
 
+
 from selenium import webdriver
 browser = webdriver.Chrome()
 browser.maximize_window()
@@ -43,9 +44,9 @@ from bs4 import BeautifulSoup
 # 위에서 seleium 에서 얻은 페이지 정보에 대해 page source를 가져온다.
 # 스크롤을 모두 내렸을떄의 정보일 것이다.
 soup = BeautifulSoup(browser.page_source,'lxml')
-movies = soup.find_all('div',attrs={ 'class' : 'ImZGtf mpg5gc'})
-print(movies) 
-
+# movies = soup.find_all('div',attrs={ 'class' : ['ImZGtf mpg5gc','Vpfmgd']})
+# [] 안에 들어있는 경우는 , 2가지. 즉 class 가 앞의것이거나, 뒤의것인것을 고르라는 의미.
+movies = soup.find_all('div',attrs={ 'class' : 'Vpfmgd'})
 with open('movie.html','w',encoding='utf8') as f :
     f.write(soup.prettify()) # html 을 예쁘게 나오게 한다. soup.prettify 는 말그대로 pretty ! 
 
@@ -55,4 +56,20 @@ with open('movie.html','w',encoding='utf8') as f :
 
 for movie in movies :
     title = movie.find('div',attrs = {'class' : "WsMG1c nnK0zc"}).get_text()
-    print(title)
+    # 할인 전 가격
+    original_price = movie.find('span',attrs={'class' : 'SUZt4c djCuy'})
+    if original_price : 
+        original_price = original_price.get_text()
+    else : 
+        continue
+    
+    # 할인된 가격
+    price = movie.find('span',attrs={'class' : "VfPpfd ZdBevf i5DZme"}).get_text()
+    # 링크
+    link = movie.find('a',attrs = {'class' : 'JC71ub'})['href']
+    print(f'제목 : {title}')
+    print(f'할인전 금액 : {original_price}')
+    print(f'할인후 금액 : {price}')
+    print(f'링크 : https://play.google.com' + link)
+    print('-'*50)
+browser.quit()
